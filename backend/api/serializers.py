@@ -43,3 +43,20 @@ class FocusSessionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'duration': 'Duration must be greater than zero.'})
 
         return attrs
+    
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True) # write_only garante que a senha nunca retorne no JSON
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'first_name']
+
+    def create(self, validated_data):
+        # O create_user é vital aqui, pois ele criptografa a senha no banco
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email', ''),
+            first_name=validated_data.get('first_name', ''),
+            password=validated_data['password']
+        )
+        return user

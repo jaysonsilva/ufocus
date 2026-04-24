@@ -1,8 +1,14 @@
 from rest_framework import generics, permissions, viewsets
 
 from .models import FocusSession, Task, User
-from .serializers import FocusSessionSerializer, TaskSerializer, UserSerializer
+from .serializers import FocusSessionSerializer, TaskSerializer, UserSerializer, RegisterSerializer
 
+from rest_framework.permissions import AllowAny
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny] # AllowAny permite que pessoas sem login acessem esta rota
+    serializer_class = RegisterSerializer
 
 class UserOwnedViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
