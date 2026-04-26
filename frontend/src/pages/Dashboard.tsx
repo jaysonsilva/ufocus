@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { TaskList } from '../components/TaskList';
 import { PomodoroTimer } from '../components/PomodoroTimer';
+// IMPORTANDO O NOSSO NOVO MENU
+import { Sidebar } from '../components/SideBar.tsx'; 
+import { Header } from '../components/Header';
 
 interface UserProfile {
   username: string;
@@ -18,7 +21,6 @@ export function Dashboard() {
   useEffect(() => {
     async function loadProfile() {
       try {
-        // O intercetor injeta o token automaticamente aqui
         const response = await api.get('me/');
         setUser(response.data);
       } catch (error) {
@@ -30,52 +32,50 @@ export function Dashboard() {
     loadProfile();
   }, []);
 
-  function handleLogout() {
-    localStorage.clear(); // Remove tokens e outras chaves
-    navigate('/login');
-  }
+  
 
   if (loading) return <div style={{ padding: '50px' }}>A carregar ambiente de trabalho...</div>;
 
   return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', paddingBottom: '20px' }}>
-        <div>
-          <h1>U FOCUS</h1>
-          <p>Bem-vindo, <strong>{user?.first_name || user?.username}</strong>!</p>
-        </div>
-        <button 
-          onClick={handleLogout}
-          style={{ padding: '10px 20px', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Sair da Sessão
-        </button>
-      </header>
+    // CONTÊINER PRINCIPAL
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa', fontFamily: 'sans-serif' }}>
+      
+      {/* MENU LATERAL */}
+      <Sidebar />
 
-      <main style={{ marginTop: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-        {/* Espaço para o Pomodoro */}
-        <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
-          <h2>Cronómetro Pomodoro</h2>
-          <p>Prepara-te para a próxima sessão de foco.</p>
-          {/* O componente do Timer entrará aqui */}
-          <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
-            <h2>Cronómetro Pomodoro</h2>
-            <PomodoroTimer />
-          </section>
-        </section>
+      {/* ÁREA PRINCIPAL DO DASHBOARD (A direita) */}
+      {/* 1. Removemos o padding daqui e mudamos para display flex em coluna */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        
+        {/* 2. O SEU NOVO HEADER ENTRA AQUI (Substituindo a tag <header> antiga) */}
+        <Header 
+          name={user?.first_name || user?.username || 'Usuário'} 
+          email={user?.email || 'email@exemplo.com'} 
+        />
 
-        {/* Espaço para a Lista de Tarefas */}
-        <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
-          <h2>As Tuas Tarefas</h2>
-          <p>Consulta as tuas metas diárias de engenharia.</p>
-          {/* A lista de tarefas entrará aqui */}
-          {/* Espaço para a Lista de Tarefas */}
-            <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
-            <p style={{ marginBottom: '20px', color: '#666' }}>Consulta as tuas metas diárias de engenharia.</p>
-            <TaskList />
+        {/* 3. Colocamos o padding de 40px apenas em volta do conteúdo principal */}
+        <div style={{ padding: '40px' }}>
+          
+          <main style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
+            
+            {/* Espaço para o Pomodoro */}
+            <section style={{ padding: '30px', backgroundColor: 'white', border: '1px solid #eee', borderRadius: '16px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+              <h2 style={{ marginBottom: '15px' }}>Foco Atual</h2>
+              <PomodoroTimer />
             </section>
-        </section>
-      </main>
+
+            {/* Espaço para a Lista de Tarefas */}
+            <section style={{ padding: '30px', backgroundColor: 'white', border: '1px solid #eee', borderRadius: '16px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+              <h2 style={{ marginBottom: '15px' }}>As Tuas Tarefas</h2>
+              <TaskList />
+            </section>
+
+          </main>
+          
+        </div>
+
+      </div>
+
     </div>
   );
 }

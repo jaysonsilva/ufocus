@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
 export function PomodoroTimer() {
-  const [minutes, setMinutes] = useState(0); // Aqui muda o tempo de pomodoro
-  const [seconds, setSeconds] = useState(1);
+  const [minutes, setMinutes] = useState(25); // Aqui muda o tempo de pomodoro
+  const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [mode, setMode] = useState<'Foco' | 'Pausa'>('Foco');
   // ADICIONE ESTA LINHA:
@@ -98,7 +98,7 @@ export function PomodoroTimer() {
           fontSize: '1rem',
           fontWeight: 'bold',
           // Muda de cor: Azul para ir pro Break, Laranja para voltar pro Focus
-          backgroundColor: mode === 'Foco' ? '#3498db' : '#e67e22', 
+          backgroundColor: mode === 'Foco' ? '#003366' : '#F5A623', 
           color: 'white',
           border: 'none',
           borderRadius: '20px',
