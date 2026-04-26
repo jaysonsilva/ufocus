@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { TaskList } from '../components/TaskList';
+import { PomodoroTimer } from '../components/PomodoroTimer';
 
 interface UserProfile {
   username: string;
@@ -56,6 +58,10 @@ export function Dashboard() {
           <h2>Cronómetro Pomodoro</h2>
           <p>Prepara-te para a próxima sessão de foco.</p>
           {/* O componente do Timer entrará aqui */}
+          <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
+            <h2>Cronómetro Pomodoro</h2>
+            <PomodoroTimer />
+          </section>
         </section>
 
         {/* Espaço para a Lista de Tarefas */}
@@ -63,6 +69,11 @@ export function Dashboard() {
           <h2>As Tuas Tarefas</h2>
           <p>Consulta as tuas metas diárias de engenharia.</p>
           {/* A lista de tarefas entrará aqui */}
+          {/* Espaço para a Lista de Tarefas */}
+            <section style={{ padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
+            <p style={{ marginBottom: '20px', color: '#666' }}>Consulta as tuas metas diárias de engenharia.</p>
+            <TaskList />
+            </section>
         </section>
       </main>
     </div>
