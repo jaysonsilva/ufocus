@@ -1,31 +1,29 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importe isso!
+import { api } from '../services/api'; // Use a nossa instância configurada
 
 export function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Instancie o navegador
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault(); 
     setError(''); 
 
     try {
-      // Faz o POST para o seu Django pegar o Token
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
-        username,
-        password
-      });
+      // USANDO A API LOCAL (Com interceptador e base URL)
+      const response = await api.post('token/', { username, password });
 
-      // Pega o token de acesso da resposta
-      const accessToken = response.data.access;
+      const { access, refresh } = response.data;
 
-      // Salva no navegador
-      localStorage.setItem('@UFocus:token', accessToken);
+      // Guardamos os dois tokens
+      localStorage.setItem('@UFocus:token', access);
+      localStorage.setItem('@UFocus:refreshToken', refresh);
 
-      alert("Login com sucesso! O Token foi salvo.");
-      // Depois vamos redirecionar para o Dashboard aqui!
-      
+      // REDIRECIONAMENTO AUTOMÁTICO
+      navigate('/dashboard'); 
     } catch (err) {
       setError('Usuário ou senha incorretos.');
     }

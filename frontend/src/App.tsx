@@ -1,16 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './pages/Login';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Dashboard } from './pages/Dashboard';
 
-// Um componente temporário para testar se o login redireciona corretamente
-function Dashboard() {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h1>Dashboard U FOCUS</h1>
-      <p>Bem-vindo! Se estás a ver isto, o login funcionou e o token foi salvo.</p>
-    </div>
-  );
-}
 
 function App() {
   return (
