@@ -20,6 +20,7 @@ export function Header({ name, email }: HeaderProps) {
         boxSizing: 'border-box'
       }}
     >
+      
       <div style={{ textAlign: 'right' }}>
         <p style={{ margin: 0, fontWeight: 'bold', color: '#333', fontSize: '1rem' }}>
           {name}
