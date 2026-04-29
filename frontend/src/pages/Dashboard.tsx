@@ -6,6 +6,7 @@ import { PomodoroTimer } from '../components/PomodoroTimer';
 // IMPORTANDO O NOSSO NOVO MENU
 import { Sidebar } from '../components/SideBar.tsx'; 
 import { Header } from '../components/Header';
+import { Metrics } from '../components/Metrics';
 
 interface UserProfile {
   username: string;
@@ -32,50 +33,100 @@ export function Dashboard() {
     loadProfile();
   }, []);
 
-  
+
+  // ADICIONE ESTA FUNÇÃO DE VOLTA:
+  function handleLogout() {
+    localStorage.clear();
+    navigate('/login');
+  }
+
+
 
   if (loading) return <div style={{ padding: '50px' }}>A carregar ambiente de trabalho...</div>;
 
-  return (
-    // CONTÊINER PRINCIPAL
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa', fontFamily: 'sans-serif' }}>
+return (
+    // 1. O contêiner pai agora bloqueia QUALQUER vazamento (overflow: hidden)
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', backgroundColor: '#f4f7fb', fontFamily: 'sans-serif', overflow: 'hidden' }}>
       
-      {/* MENU LATERAL */}
-      <Sidebar />
+      <Sidebar onLogout={handleLogout} />
 
-      {/* ÁREA PRINCIPAL DO DASHBOARD (A direita) */}
-      {/* 1. Removemos o padding daqui e mudamos para display flex em coluna */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+      {/* COLUNA DIREITA INTEIRA */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         
-        {/* 2. O SEU NOVO HEADER ENTRA AQUI (Substituindo a tag <header> antiga) */}
-        <Header 
-          name={user?.first_name || user?.username || 'Usuário'} 
-          email={user?.email || 'email@exemplo.com'} 
-        />
+        {/* CABEÇALHO COM ALTURA TRAVADA: flex: '0 0 70px' impede ele de crescer ou encolher */}
+        <div style={{ flex: '0 0 70px' }}>
+          <Header 
+            name={user?.first_name || user?.username || 'Usuário'} 
+            email={user?.email || 'email@exemplo.com'} 
+          />
+        </div>
 
-        {/* 3. Colocamos o padding de 40px apenas em volta do conteúdo principal */}
-        <div style={{ padding: '40px' }}>
+        {/* ÁREA DE CONTEÚDO PRINCIPAL */}
+        {/* Diminuí um pouco o padding vertical (20px) para dar mais espaço aos retângulos */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '20px 40px', overflow: 'hidden' }}>
           
-          <main style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-            
-            {/* Espaço para o Pomodoro */}
-            <section style={{ padding: '30px', backgroundColor: 'white', border: '1px solid #eee', borderRadius: '16px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-              <h2 style={{ marginBottom: '15px' }}>Foco Atual</h2>
-              <PomodoroTimer />
-            </section>
+          {/* TÍTULO (Trava de altura natural: flex: '0 0 auto') */}
+          <div style={{ flex: '0 0 auto', marginBottom: '20px' }}>
+            <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#1a1a1a' }}>Dashboard</h1>
+            <p style={{ margin: '4px 0 0 0', color: '#888' }}>
+              Welcome back, {user?.first_name || 'Fulano'}
+            </p>
+            <div style={{ height: '3px', width: '40px', backgroundColor: '#007bff', marginTop: '8px', borderRadius: '2px' }}></div>
+          </div>
 
-            {/* Espaço para a Lista de Tarefas */}
-            <section style={{ padding: '30px', backgroundColor: 'white', border: '1px solid #eee', borderRadius: '16px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
-              <h2 style={{ marginBottom: '15px' }}>As Tuas Tarefas</h2>
-              <TaskList />
-            </section>
+          {/* GRID RESPONSIVO (minHeight: 0 é o que faz os quadrados obedecerem o limite da tela) */}
+          <main style={{ 
+            flex: 1, 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1.6fr', 
+            gap: '24px',
+            minHeight: 0 
+          }}>
+            
+            {/* COLUNA ESQUERDA */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', minHeight: 0 }}>
+              
+              {/* POMODORO: Pega apenas o espaço que precisa (flex: '0 0 auto') */}
+              <section style={{ 
+                flex: '0 0 auto', 
+                backgroundColor: 'white', 
+                borderRadius: '24px', 
+                boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
+                padding: '24px' 
+              }}>
+                <PomodoroTimer />
+              </section>
+
+              {/* TAREFAS: Pega o resto do espaço (flex: 1) e gera scroll interno se espremer */}
+              <section style={{ 
+                flex: 1, 
+                backgroundColor: 'white', 
+                borderRadius: '24px', 
+                boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0,
+                overflow: 'hidden' 
+              }}>
+                <div style={{ padding: '24px', flex: 1, overflowY: 'auto' }}>
+                  <TaskList />
+                </div>
+              </section>
+
+            </div>
+
+            {/* COLUNA DIREITA (MÉTRICAS) */}
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+              {/* O componente Metrics ocupará 100% dessa div */}
+              <div style={{ flex: 1, overflow: 'hidden', borderRadius: '24px' }}>
+                <Metrics />
+              </div>
+            </div>
 
           </main>
           
         </div>
-
       </div>
-
     </div>
   );
 }

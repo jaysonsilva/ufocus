@@ -9,7 +9,7 @@ export function Header({ name, email }: HeaderProps) {
   return (
     <header 
       style={{ 
-        height: '98px', 
+        height: '70px', 
         backgroundColor: '#ffffff', 
         display: 'flex', 
         alignItems: 'center', 
@@ -21,10 +21,10 @@ export function Header({ name, email }: HeaderProps) {
       }}
     >
       <div style={{ textAlign: 'right' }}>
-        <p style={{ margin: 0, fontWeight: 'bold', color: '#333', fontSize: '1.1rem' }}>
+        <p style={{ margin: 0, fontWeight: 'bold', color: '#333', fontSize: '1rem' }}>
           {name}
         </p>
-        <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
+        <p style={{ margin: 0, color: '#666', fontSize: '0.8rem' }}>
           {email}
         </p>
       </div>

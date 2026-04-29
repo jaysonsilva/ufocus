@@ -18,10 +18,10 @@ export function Sidebar() {
   return (
     <aside 
       style={{ 
-        width: '280px', 
+        width: '220px', 
         height: '100vh', // Ocupa a altura total da tela
         backgroundColor: '#003366', // Cor de fundo do menu (pode alterar para a cor da sua marca)
-        borderRadius: '0 10px 10px 0', // Arredonda apenas o topo-direito e base-direita
+        borderRadius: '0 20px 20px 0', // Arredonda apenas o topo-direito e base-direita
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', // Centraliza os itens horizontalmente
@@ -37,7 +37,7 @@ export function Sidebar() {
         <img 
           src={logoSvg} 
           alt="U Focus Logo" 
-          style={{ width: '150px', height: 'auto' }} // Ajuste o tamanho aqui
+          style={{ width: '100px', height: 'auto' }} // Ajuste o tamanho aqui
         />
       </div>
 
@@ -55,7 +55,7 @@ export function Sidebar() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', // Centraliza o SVG dentro do botão
-            width: '280px',           // Largura exata pedida
+            width: '250px',           // Largura exata pedida
             height: '72px',          // Altura exata pedida
             backgroundColor: '#003366', // Cor do retângulo (mais claro que o fundo)
             borderRadius: '0px',      // Mantém as bordas arredondadas do botão
@@ -67,7 +67,7 @@ export function Sidebar() {
               src={dashIconSvg} 
               alt="Dashboard" 
               style={{ 
-                height: '32px', // Ajustei a altura para ficar proporcional aos 72px de altura do botão
+                height: '25px', // Ajustei a altura para ficar proporcional aos 72px de altura do botão
                 width: 'auto' 
               }} 
             />
@@ -87,20 +87,20 @@ export function Sidebar() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            width: '280px',
-            height: '72px',
+            width: '250px',
+            height: '10px',
             backgroundColor: '#003366', // Mesma cor do dashboard
-            borderRadius: '12px',
+            borderRadius: '0px',
             transition: 'background-color 0.2s'
          }}
          // Efeito simples de hover para feedback visual
-         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4e5666'}
-         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3d4450'}
+         //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4e5666'}
+         //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3d4450'}
          >
             <img 
               src={logoutIconSvg} 
               alt="Sair" 
-              style={{ height: '32px', width: 'auto' }} 
+              style={{ height: '25px', width: 'auto' }} 
             />
          </div>
       </div>
