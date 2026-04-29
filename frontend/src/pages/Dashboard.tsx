@@ -78,26 +78,30 @@ return (
           <main style={{ 
             flex: 1, 
             display: 'grid', 
-            gridTemplateColumns: '1fr 1.6fr', 
+            gridTemplateColumns: '1fr 2fr', // A sua nova proporção
             gap: '24px',
             minHeight: 0 
           }}>
             
             {/* COLUNA ESQUERDA */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', minHeight: 0 }}>
-              
-              {/* POMODORO: Pega apenas o espaço que precisa (flex: '0 0 auto') */}
+            {/* ADICIONE O minWidth: 0 NO FINAL DESTE STYLE */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', minHeight: 0, height: '100%', minWidth: 0 }}>
+              {/* POMODORO: 50% exatos */}
               <section style={{ 
-                flex: '0 0 auto', 
+                flex: 1, 
                 backgroundColor: 'white', 
                 borderRadius: '24px', 
                 boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
-                padding: '24px' 
+                padding: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                minHeight: 0 // <-- ISSO FORÇA ELE A ACEITAR DIVIDIR O ESPAÇO
               }}>
                 <PomodoroTimer />
               </section>
 
-              {/* TAREFAS: Pega o resto do espaço (flex: 1) e gera scroll interno se espremer */}
+              {/* TAREFAS: 50% exatos */}
               <section style={{ 
                 flex: 1, 
                 backgroundColor: 'white', 
@@ -105,7 +109,7 @@ return (
                 boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: 0,
+                minHeight: 0, // <-- ISSO FORÇA ELE A ACEITAR DIVIDIR O ESPAÇO
                 overflow: 'hidden' 
               }}>
                 <div style={{ padding: '24px', flex: 1, overflowY: 'auto' }}>
@@ -115,9 +119,11 @@ return (
 
             </div>
 
+           
+
             {/* COLUNA DIREITA (MÉTRICAS) */}
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-              {/* O componente Metrics ocupará 100% dessa div */}
+            {/* ADICIONE O minWidth: 0 AQUI TAMBÉM */}
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, minWidth: 0 }}>
               <div style={{ flex: 1, overflow: 'hidden', borderRadius: '24px' }}>
                 <Metrics />
               </div>
